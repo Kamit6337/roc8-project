@@ -25,22 +25,22 @@ export const categoryRouter = createTRPCRouter({
     }
   }),
 
-  // create: publicProcedure
-  //   .input(z.object({ name: z.string().min(1) }))
-  //   .mutation(async ({ ctx, input }) => {
-  //     // simulate a slow db call
-  //     await new Promise((resolve) => setTimeout(resolve, 1000));
+  getByPage: publicProcedure
+    .input(z.object({ page: z.number() }))
+    .query(({ ctx, input }) => {
+      const { page = 1 } = input; // Default page size is 6 entries
 
-  //     return ctx.db.post.create({
-  //       data: {
-  //         name: input.name,
-  //       },
-  //     });
-  //   }),
+      const perPage = 6;
+      const skip = (page - 1) * perPage;
 
-  // getLatest: publicProcedure.query(({ ctx }) => {
-  //   return ctx.db.post.findFirst({
-  //     orderBy: { createdAt: "desc" },
-  //   });
-  // }),
+      return ctx.db.category.findMany({
+        orderBy: { createdAt: "desc" },
+        take: perPage,
+        skip: skip,
+      });
+    }),
+
+  getTotalCount: publicProcedure.query(({ ctx }) => {
+    return ctx.db.category.count();
+  }),
 });

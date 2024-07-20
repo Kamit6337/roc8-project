@@ -14,6 +14,7 @@ export default {
         black: "var(--black)",
         white: "var(--white)",
         light_black: "var(--light-black)",
+        checkbox_gray: "var(--checkbox-gray)",
       },
     },
   },

@@ -21,10 +21,11 @@ type FormData = z.infer<typeof schema>;
 
 const LoginPage = () => {
   const router = useRouter();
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
@@ -62,7 +63,7 @@ const LoginPage = () => {
             register={register}
             error={errors.password?.message}
           />
-          <Button title="Login" />
+          <Button title="Login" isLoading={isSubmitting} />
           <div className="mt-3 flex items-center gap-3">
             <p className="text-light_black">Don’t have an Account?</p>
             <button className="font-medium uppercase tracking-wider">

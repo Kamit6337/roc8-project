@@ -15,7 +15,7 @@ const Toastify = () => {
 
   const showSuccessMessage = ({
     message,
-    time = 5000,
+    time = 2000,
     position = "top-right",
   } = {}) => {
     toast.success(message, {

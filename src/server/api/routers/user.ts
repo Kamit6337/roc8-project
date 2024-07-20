@@ -46,9 +46,62 @@ export const userRouter = createTRPCRouter({
       });
     }),
 
-  // getLatest: publicProcedure.query(({ ctx }) => {
-  //   return ctx.db.post.findFirst({
-  //     orderBy: { createdAt: "desc" },
-  //   });
-  // }),
+  // Save categories related to a user
+  saveUserCategory: publicProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        categoryId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { userId, categoryId } = input;
+
+      await ctx.db.userCategory.create({
+        data: {
+          userId,
+          categoryId,
+        },
+      });
+      return {
+        message: `Categories processed for user ${userId} in category ${categoryId}`,
+      };
+    }),
+
+  removeUserCategory: publicProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        categoryId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { userId, categoryId } = input;
+
+      await ctx.db.userCategory.delete({
+        where: {
+          userId_categoryId: {
+            userId,
+            categoryId,
+          },
+        },
+      });
+      
+      return {
+        message: `Category deleted for user ${userId} in category ${categoryId}`,
+      };
+    }),
+
+  // Find categories related to a specific user
+  findUserCategories: publicProcedure
+    .input(z.object({ userId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const { userId } = input;
+
+      return ctx.db.userCategory.findMany({
+        where: {
+          userId: userId,
+        },
+      });
+    }),
 });

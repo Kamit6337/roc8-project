@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import ReactIcons from "~/assets/icons";
 import { decrypt } from "~/utils/encryption/encryptAndDecrypt";
+import Profile from "./Profile";
 
 const list: string[] = [
   "Categories",
@@ -10,26 +11,29 @@ const list: string[] = [
   "Trending",
 ];
 
+const topList = ["Help", "Orders & Return"];
+
 const Header = () => {
   const data = cookies().get("_use");
 
-  const decrypted = decrypt(data?.value);
+  let name = "John";
 
-  const topList = [
-    "Help",
-    "Orders & Return",
-    `Hi, ${decrypted ? decrypted.name.split(" ")[0] : "John"} `,
-  ];
+  if (data?.value) {
+    const decrypted = decrypt(data.value);
+    name = decrypted.name.split(" ")[0];
+  }
+
   return (
     <header className="flex h-[130px] w-full flex-col">
-      <div className="flex h-8 items-center justify-between gap-5 self-end px-10 text-xs">
+      <div className="flex h-8 items-center justify-between self-end px-10 text-xs">
         {topList.map((txt, i) => {
           return (
-            <p key={i} className="capitalize">
+            <p key={i} className="px-2 capitalize">
               {txt}
             </p>
           );
         })}
+        <Profile name={name} />
       </div>
       <div className="flex h-full w-full flex-1 items-center justify-between px-10">
         <p className="text-[32px] font-bold">ECOMMERCE</p>

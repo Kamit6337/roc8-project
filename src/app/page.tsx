@@ -1,20 +1,34 @@
-import { HydrateClient } from "~/trpc/server";
+import { HydrateClient, trpc } from "~/trpc/server";
 import Box from "./_components/Box";
 import handleUserLoggedIn from "~/actions/handleUserLoggedIn";
+import Category from "./_components/Category";
+import CategoryPagination from "./_components/Pagination";
 
-export default async function Home() {
-  // const hello = await trpc.post.hello({ text: "from tRPC" });
-  // const value = hello ? hello.greeting : "Loading tRPC query...";
+export default async function Home({
+  searchParams: { page },
+}: {
+  searchParams: { page: string };
+}) {
+  const userId = (await handleUserLoggedIn()) as string;
 
-  await handleUserLoggedIn();
+  const totalCount = await trpc.category.getTotalCount();
+  const userCategories = await trpc.user.findUserCategories({ userId });
+  const currentPage = page ? Number(page) : 1;
+  const categoryByPage = await trpc.category.getByPage({ page: currentPage });
 
   return (
     <HydrateClient>
       <Box title="Please mark your interests!" height={658}>
         <p>We will keep you notified.</p>
-        <div className="flex flex-col self-start">
+        <div className="flex flex-col self-start text-[20px] font-medium">
           <p>My saved interests!</p>
         </div>
+        <Category
+          list={categoryByPage}
+          userCategories={userCategories}
+          userId={userId}
+        />
+        <CategoryPagination total={totalCount} currentPage={currentPage} />
       </Box>
     </HydrateClient>
   );

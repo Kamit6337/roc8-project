@@ -9,9 +9,12 @@ import { decrypt } from "~/utils/encryption/encryptAndDecrypt";
 const handleUserLoggedIn = catchAsyncError(async () => {
   const data = cookies().get("_use");
 
-  if (!data) {
+  if (!data?.value) {
     redirect("/login");
   }
+
+  console.log("data", data);
+  console.log("is comes here ...............................................");
 
   try {
     const { id } = decrypt(data.value);
@@ -21,6 +24,8 @@ const handleUserLoggedIn = catchAsyncError(async () => {
     if (!findUser) {
       redirect("/login");
     }
+
+    return id;
   } catch (error) {
     redirect("/login");
   }
