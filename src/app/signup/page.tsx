@@ -7,6 +7,10 @@ import Button from "../_components/Button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import handleUserSignup from "~/actions/handleUserSignup";
+import { useRouter } from "next/navigation";
+import Toastify from "../_components/Toastify";
+import Link from "next/link";
 
 const schema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -17,6 +21,8 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const SignUpPage = () => {
+  const router = useRouter();
+  const { ToastContainer, showErrorMessage } = Toastify();
   const {
     register,
     handleSubmit,
@@ -25,42 +31,51 @@ const SignUpPage = () => {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (data: FormData) => {
-    console.log("data", data);
+  const onSubmit = async (data: FormData) => {
+    try {
+      await handleUserSignup(data);
+      localStorage.setItem("email", data.email);
+      router.push("/signup/verify");
+    } catch (error) {
+      showErrorMessage({ message: error?.message || "Something went wrong" });
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Box title="Create Your Account" height={691} gap={30}>
-        <Input
-          name="name"
-          title="Name"
-          register={register}
-          error={errors.name?.message}
-        />
-        <Input
-          name="email"
-          type="email"
-          title="Email"
-          register={register}
-          error={errors.email?.message}
-        />
-        <Input
-          name="password"
-          type="password"
-          title="Password"
-          register={register}
-          error={errors.password?.message}
-        />
-        <Button title="Create Account" />
-        <div className="mt-3 flex items-center gap-3">
-          <p className="text-light_black">Have an Account?</p>
-          <button className="font-medium uppercase tracking-wider">
-            Login
-          </button>
-        </div>
-      </Box>
-    </form>
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Box title="Create Your Account" height={691} gap={30}>
+          <Input
+            name="name"
+            title="Name"
+            register={register}
+            error={errors.name?.message}
+          />
+          <Input
+            name="email"
+            type="email"
+            title="Email"
+            register={register}
+            error={errors.email?.message}
+          />
+          <Input
+            name="password"
+            type="password"
+            title="Password"
+            register={register}
+            error={errors.password?.message}
+          />
+          <Button title="Create Account" />
+          <div className="mt-3 flex items-center gap-3">
+            <p className="text-light_black">Have an Account?</p>
+            <button className="font-medium uppercase tracking-wider">
+              <Link href={`/login`}>Login</Link>
+            </button>
+          </div>
+        </Box>
+      </form>
+      <ToastContainer />
+    </>
   );
 };
 

@@ -7,6 +7,10 @@ import Button from "../_components/Button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import Link from "next/link";
+import handleUserLogin from "~/actions/handleUserLogin";
+import Toastify from "../_components/Toastify";
+import { useRouter } from "next/navigation";
 
 const schema = z.object({
   email: z.string().email("Invalid email address"),
@@ -16,6 +20,7 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const LoginPage = () => {
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -24,40 +29,50 @@ const LoginPage = () => {
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (data: FormData) => {
-    console.log("data", data);
+  const { ToastContainer, showErrorMessage } = Toastify();
+
+  const onSubmit = async (data: FormData) => {
+    try {
+      await handleUserLogin(data);
+      router.push("/");
+    } catch (error) {
+      showErrorMessage({ message: error?.message || "Something went wrong" });
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Box title="Login" height={614} gap={30}>
-        <div className="space-y-1 text-center">
-          <p className="text-2xl font-medium">Welcome back to ECOMMERCE</p>
-          <p>The next gen business marketplace</p>
-        </div>
-        <Input
-          name="email"
-          type="email"
-          title="Email"
-          register={register}
-          error={errors.email?.message}
-        />
-        <Input
-          name="password"
-          type="password"
-          title="Password"
-          register={register}
-          error={errors.password?.message}
-        />
-        <Button title="Login" />
-        <div className="mt-3 flex items-center gap-3">
-          <p className="text-light_black">Don’t have an Account?</p>
-          <button className="font-medium uppercase tracking-wider">
-            Sign Up
-          </button>
-        </div>
-      </Box>
-    </form>
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Box title="Login" height={691} gap={30}>
+          <div className="space-y-1 text-center">
+            <p className="text-2xl font-medium">Welcome back to ECOMMERCE</p>
+            <p>The next gen business marketplace</p>
+          </div>
+          <Input
+            name="email"
+            type="email"
+            title="Email"
+            register={register}
+            error={errors.email?.message}
+          />
+          <Input
+            name="password"
+            type="password"
+            title="Password"
+            register={register}
+            error={errors.password?.message}
+          />
+          <Button title="Login" />
+          <div className="mt-3 flex items-center gap-3">
+            <p className="text-light_black">Don’t have an Account?</p>
+            <button className="font-medium uppercase tracking-wider">
+              <Link href={"/signup"}>Sign Up</Link>
+            </button>
+          </div>
+        </Box>
+      </form>
+      <ToastContainer />
+    </>
   );
 };
 

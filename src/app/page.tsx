@@ -1,17 +1,12 @@
-import Link from "next/link";
-
-import { LatestPost } from "~/app/_components/post";
-import { HydrateClient, trpc } from "~/trpc/server";
+import { HydrateClient } from "~/trpc/server";
 import Box from "./_components/Box";
-import { faker } from "@faker-js/faker";
+import handleUserLoggedIn from "~/actions/handleUserLoggedIn";
 
 export default async function Home() {
-  const hello = await trpc.post.hello({ text: "from tRPC" });
-  const value = hello ? hello.greeting : "Loading tRPC query...";
+  // const hello = await trpc.post.hello({ text: "from tRPC" });
+  // const value = hello ? hello.greeting : "Loading tRPC query...";
 
-  const category = faker.commerce.product();
-
-  void trpc.post.getLatest.prefetch();
+  await handleUserLoggedIn();
 
   return (
     <HydrateClient>
@@ -20,7 +15,6 @@ export default async function Home() {
         <div className="flex flex-col self-start">
           <p>My saved interests!</p>
         </div>
-        <p>{category}</p>
       </Box>
     </HydrateClient>
   );

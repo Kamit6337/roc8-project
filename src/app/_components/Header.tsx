@@ -1,4 +1,6 @@
+import { cookies } from "next/headers";
 import ReactIcons from "~/assets/icons";
+import { decrypt } from "~/utils/encryption/encryptAndDecrypt";
 
 const list: string[] = [
   "Categories",
@@ -8,14 +10,25 @@ const list: string[] = [
   "Trending",
 ];
 
-const topList = ["Help", "Orders & Return", "Hi, John"];
-
 const Header = () => {
+  const data = cookies().get("_use");
+
+  const decrypted = decrypt(data?.value);
+
+  const topList = [
+    "Help",
+    "Orders & Return",
+    `Hi, ${decrypted ? decrypted.name.split(" ")[0] : "John"} `,
+  ];
   return (
     <header className="flex h-[130px] w-full flex-col">
       <div className="flex h-8 items-center justify-between gap-5 self-end px-10 text-xs">
         {topList.map((txt, i) => {
-          return <p key={i}>{txt}</p>;
+          return (
+            <p key={i} className="capitalize">
+              {txt}
+            </p>
+          );
         })}
       </div>
       <div className="flex h-full w-full flex-1 items-center justify-between px-10">
@@ -34,7 +47,7 @@ const Header = () => {
           </p>
         </div>
       </div>
-      <div className="bg-header_gray flex h-8 items-center justify-center gap-5 text-sm">
+      <div className="flex h-8 items-center justify-center gap-5 bg-header_gray text-sm">
         <p>
           <ReactIcons.leftAngle />
         </p>
