@@ -1,0 +1,17 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --header-gray: #f4f4f4;
+  --box-border: #c1c1c1;
+  --black: #000000;
+  --white: #ffffff;
+  --light-black: #333333;
+}
+
+@layer base {
+  * {
+    @apply m-0 box-border p-0;
+  }
+}

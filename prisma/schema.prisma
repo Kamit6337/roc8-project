@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id                String   @id @default(cuid())
+  title             String   @unique
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  userCategories    UserCategory[]
+}
+
+model User {
+  id                Int       @id @default(autoincrement())
+  name              String
+  email             String    @unique
+  password          String
+  userCategories    UserCategory[]
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+// Junction table to store many-to-many relationship between User and Category
+model UserCategory {
+  userId     Int
+  categoryId String
+  createdAt  DateTime @default(now())
+  user       User    @relation(fields: [userId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
+  @@id([userId, categoryId])
+  @@unique([userId, categoryId])
+}
