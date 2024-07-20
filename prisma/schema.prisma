@@ -9,7 +9,7 @@ datasource db {
 
 model Category {
   id                String   @id @default(cuid())
-  title             String   @unique
+  title             String   
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
   userCategories    UserCategory[]

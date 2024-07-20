@@ -9,6 +9,7 @@
   --white: #ffffff;
   --light-black: #333333;
   --checkbox-gray: #cccccc;
+  --pagination-gray : #ACACAC;
 }
 
 @layer base {

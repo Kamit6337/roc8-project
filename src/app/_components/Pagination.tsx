@@ -1,4 +1,3 @@
-import Link from "next/link";
 import ReactIcons from "~/assets/icons";
 import {
   Pagination,
@@ -22,49 +21,91 @@ function CategoryPagination({
     ? total / perPage
     : Math.trunc(total / perPage) + 1;
 
+  const maxPagesToShow = 7;
+
+  const getPageNumbers = () => {
+    let startPage = Math.max(1, currentPage - 3);
+    let endPage = Math.min(totalPages, currentPage + 3);
+
+    if (currentPage <= 4) {
+      endPage = Math.min(totalPages, maxPagesToShow);
+    }
+
+    if (currentPage > totalPages - 4) {
+      startPage = Math.max(1, totalPages - 6);
+    }
+
+    const pages = [];
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
+    }
+    return pages;
+  };
+
+  const pages = getPageNumbers();
+
   return (
-    <main className="self-start">
+    <main className="w-[293px] self-start">
       <Pagination className="">
-        <PaginationContent className="">
+        <PaginationContent className="flex w-full items-center justify-between">
           <PaginationItem>
-            <Link href={`/`}>
-              <ReactIcons.leftDoubleAngle />
-            </Link>
+            <PaginationLink href={`/`} className="w-4">
+              <ReactIcons.leftDoubleAngle className="text-pagination_gray" />
+            </PaginationLink>
           </PaginationItem>
           <PaginationItem>
-            <Link
+            <PaginationLink
               href={`${currentPage > 2 ? `/?page=${currentPage - 1}` : "/"}`}
+              className="w-3"
             >
-              <ReactIcons.leftAngle />
-            </Link>
+              <ReactIcons.leftAngle className="text-pagination_gray" />
+            </PaginationLink>
           </PaginationItem>
 
-          {new Array(totalPages).fill("").map((_, i) => {
-            return (
-              <PaginationItem key={i}>
-                <PaginationLink
-                  href={i === 0 ? "/" : `/?page=${i + 1}`}
-                  className={`${currentPage === i + 1 ? "font-semibold" : ""} text-[20px]`}
-                >
-                  {i + 1}
-                </PaginationLink>
+          {currentPage > 4 && (
+            <>
+              <PaginationItem>
+                <PaginationEllipsis className="text-pagination_gray" />
               </PaginationItem>
-            );
-          })}
+            </>
+          )}
+
+          {pages.map((page) => (
+            <PaginationItem key={page}>
+              <PaginationLink
+                href={page === 1 ? "/" : `/?page=${page}`}
+                className={`${currentPage === page ? "font-semibold text-black" : "text-pagination_gray"} flex w-max items-center justify-between text-[20px]`}
+              >
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+
+          {currentPage < totalPages - 3 && (
+            <>
+              <PaginationItem>
+                <PaginationEllipsis className="text-pagination_gray" />
+              </PaginationItem>
+              {/* <PaginationItem>
+                <PaginationLink href={`/?page=${totalPages}`}>
+                  {totalPages}
+                </PaginationLink>
+              </PaginationItem> */}
+            </>
+          )}
+
           <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <Link
+            <PaginationLink
               href={`${currentPage !== totalPages ? `/?page=${currentPage + 1}` : ""}`}
+              className="w-3"
             >
-              <ReactIcons.rightAngle />
-            </Link>
+              <ReactIcons.rightAngle className="text-pagination_gray" />
+            </PaginationLink>
           </PaginationItem>
           <PaginationItem>
-            <Link href={`/?page=${totalPages}`}>
-              <ReactIcons.rightDoubleAngle />
-            </Link>
+            <PaginationLink href={`/?page=${totalPages}`} className="w-4">
+              <ReactIcons.rightDoubleAngle className="text-pagination_gray" />
+            </PaginationLink>
           </PaginationItem>
         </PaginationContent>
       </Pagination>

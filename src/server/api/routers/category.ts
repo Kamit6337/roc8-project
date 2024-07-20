@@ -9,19 +9,11 @@ export const categoryRouter = createTRPCRouter({
     for (const _ of array100) {
       const categoryTitle = faker.commerce.product();
 
-      const findCategory = await ctx.db.category.findFirst({
-        where: {
+      await ctx.db.category.create({
+        data: {
           title: categoryTitle,
         },
       });
-
-      if (!findCategory) {
-        await ctx.db.category.create({
-          data: {
-            title: categoryTitle,
-          },
-        });
-      }
     }
   }),
 

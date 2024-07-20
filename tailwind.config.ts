@@ -15,6 +15,7 @@ export default {
         white: "var(--white)",
         light_black: "var(--light-black)",
         checkbox_gray: "var(--checkbox-gray)",
+        pagination_gray: "var(--pagination-gray)",
       },
     },
   },

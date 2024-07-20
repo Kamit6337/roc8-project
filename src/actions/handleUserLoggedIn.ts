@@ -13,9 +13,6 @@ const handleUserLoggedIn = catchAsyncError(async () => {
     redirect("/login");
   }
 
-  console.log("data", data);
-  console.log("is comes here ...............................................");
-
   try {
     const { id } = decrypt(data.value);
 

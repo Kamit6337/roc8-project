@@ -3,6 +3,7 @@ import Box from "./_components/Box";
 import handleUserLoggedIn from "~/actions/handleUserLoggedIn";
 import Category from "./_components/Category";
 import CategoryPagination from "./_components/Pagination";
+import NewButton from "./NewButton";
 
 export default async function Home({
   searchParams: { page },
