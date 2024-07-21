@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import handleCreateUser from "~/actions/handleCreateUser";
 import Box from "~/app/_components/Box";
+import Loading from "~/app/_components/Loading";
 import OtpInput from "~/app/_components/OtpInput";
 import Toastify, { ToastContainer } from "~/app/_components/Toastify";
 import modifyEmail from "~/utils/javascript/modifyEmail";
@@ -11,11 +12,12 @@ const VerifySignUp = () => {
   const router = useRouter();
   const [otp, setOtp] = useState<string[]>(new Array(8).fill(""));
   const email = typeof window !== "undefined" && localStorage.getItem("email");
-
+  const [isLoading, setIsLoading] = useState(false);
   const { showErrorMessage } = Toastify();
 
   const handleSubmit = async () => {
     try {
+      setIsLoading(true);
       const modifyOtp = otp.join("");
       await handleCreateUser(modifyOtp);
       localStorage.removeItem("email");
@@ -24,6 +26,8 @@ const VerifySignUp = () => {
       showErrorMessage({
         message: "Something went wrong. Please try later",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -36,10 +40,11 @@ const VerifySignUp = () => {
         </div>
         <OtpInput otp={otp} cb={(value: string[]) => setOtp(value)} />
         <button
+          disabled={isLoading}
           onClick={handleSubmit}
           className="mt-12 flex h-14 w-full items-center justify-center rounded-md bg-black font-medium uppercase tracking-wider text-white"
         >
-          Verify
+          {isLoading ? <Loading /> : "Verify"}
         </button>
       </Box>
       <ToastContainer />

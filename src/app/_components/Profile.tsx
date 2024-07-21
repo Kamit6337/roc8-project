@@ -19,8 +19,7 @@ const Profile = ({ name }: { name: string | undefined }) => {
       await handleLogout();
     } catch (error) {
       showErrorMessage({
-        message:
-          error instanceof Error ? error?.message : "Something went wrong",
+        message: "Something went wrong. Please try later",
       });
     }
   };

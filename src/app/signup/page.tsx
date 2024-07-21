@@ -24,7 +24,7 @@ const SignUpPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
@@ -65,7 +65,7 @@ const SignUpPage = () => {
             register={register}
             error={errors.password?.message}
           />
-          <Button title="Create Account" />
+          <Button title="Create Account" isLoading={isSubmitting} />
           <div className="mt-3 flex items-center gap-3">
             <p className="text-light_black">Have an Account?</p>
             <button className="font-medium uppercase tracking-wider">
