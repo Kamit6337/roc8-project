@@ -13,7 +13,6 @@ const handleUserSignup = catchAsyncError(async (data: Props) => {
   const otp = generate8digitNumber();
 
   const encryptData = encrypt({ ...data, otp });
-  console.log("encryptData", encryptData);
 
   cookies().set("_sig", encryptData, {
     httpOnly: true,

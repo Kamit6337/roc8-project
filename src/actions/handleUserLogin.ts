@@ -19,8 +19,6 @@ const handleUserLogin = catchAsyncError(async (data: Props) => {
 
   const bool = bcrypt.compareSync(data.password, getUser.password);
 
-  console.log("bool", bool);
-
   if (!bool) {
     throw new Error("Password is incorrect");
   }

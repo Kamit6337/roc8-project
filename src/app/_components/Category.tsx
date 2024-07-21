@@ -33,15 +33,13 @@ const Category = ({ list, userCategories, userId }: CategoryProps) => {
   const handleChecked = async (checked: boolean | string, id: string) => {
     try {
       if (checked) {
-        const response = (await handleSaveUserCategory(userId, id)) as string;
-        console.log("Save response", response);
+        await handleSaveUserCategory(userId, id);
         setSelected((prev: string[]): string[] => [...prev, id]);
         showSuccessMessage({ message: "Category saved successfully" });
         return;
       }
 
-      const response = (await handleDeleteUserCategory(userId, id)) as string;
-      console.log("delete response", response);
+      await handleDeleteUserCategory(userId, id);
 
       setSelected(selected.filter((value) => value !== id));
       showSuccessMessage({ message: "Category removed successfully" });

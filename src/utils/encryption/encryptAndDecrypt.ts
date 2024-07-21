@@ -14,8 +14,6 @@ if (!ENCRYPTION_KEY || !ENCRYPTION_IV) {
 export const encrypt = (obj: object): string => {
   const jsonString = JSON.stringify(obj);
 
-  console.log("jsonString", jsonString);
-
   const cipher = crypto.createCipheriv(
     algorithm,
     Buffer.from(ENCRYPTION_KEY, "hex"),
