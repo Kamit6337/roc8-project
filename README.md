@@ -1,29 +1,50 @@
-# Create T3 App
+# Roc8 e-Commerce Project
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This is an e-Commerce project build in Next JS with Prisma, tRPC and Neon databse server.
 
-## What's next? How do I make an app with this?
+[Live Website](https://roc8-project.vercel.app)
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Table of Contents
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+- [Description](#description)
+- [Features](#features)
+- [Tech](#tech)
+- [Screenshots](#screenshots)
 
-## Learn More
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## Description
+This is a simple e-Commerce project with login, signup, signup verify and category selection functionality.
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Features 
+- custom login with email and password
+- custom signup with name, email and password
+- signup will be verify by otp send to email provided
+- there is a list of 100 categories from Postgresql Neon server
+- Prisma ODM is used for storing Category and user data
+- user can select categories, those categories will be saved in database
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+## Tech
+<ul>
+<li>Next JS - <i>Server Side Rendered React JS app</i></li>
+<li>Tailwind CSS - <i>designing of web pages with less code</i></li>
+<li>React Query - <i>for data fetching and caching effectively</i></li>
+<li>bcryptjs - <i>for hashing user password</i></li>
+<li>Postgresql - <i>SQL database to store user data</i></li>
+<li>Prisma ODM - <i>make Schema for SQL database</i></li>
+<li>Neon Server - <i>for storing SQL data online</i></li>
+<li>nodemailer - <i>send link to email to create new password in case of forgot password</i></li>
+<li>React Hook Form - <i>effective form filling and prevent re-rendering of component</i></li>
+<li>Zod - <i>checking form and database query validation effectively</i></li>
+<li>React Icons - <i>show different icons like for profile, search etc</i></li>
+<li>React Toastify - <i>show better UI notification using pre-built components</i></li>
+</ul>
 
-## How do I deploy this?
+## Screenshots
+Here are the screenshots of this project.
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+![project1](https://amit-general-bucket.s3.ap-south-1.amazonaws.com/images/roc8-1.png)
+![project1](https://amit-general-bucket.s3.ap-south-1.amazonaws.com/images/roc8-2.png)
+![project1](https://amit-general-bucket.s3.ap-south-1.amazonaws.com/images/roc8-3.png)
+![project1](https://amit-general-bucket.s3.ap-south-1.amazonaws.com/images/roc8-4.png)
+
