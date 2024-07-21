@@ -1,4 +1,4 @@
-const modifyEmail = (email) => {
+const modifyEmail = (email: string): string => {
   const splitEmail = email.split("@");
   const emailProvider = splitEmail.at(-1);
   const slice = splitEmail.slice(0, -1);

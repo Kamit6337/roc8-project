@@ -9,7 +9,7 @@ export default async function Home({
 }: {
   searchParams: { page: string };
 }) {
-  const userId = (await handleUserLoggedIn()) as string;
+  const userId = await handleUserLoggedIn();
 
   const totalCount = await trpc.category.getTotalCount();
   const userCategories = await trpc.user.findUserCategories({ userId });

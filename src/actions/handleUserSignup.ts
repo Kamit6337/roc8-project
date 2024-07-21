@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 import catchAsyncError from "~/utils/catchAsyncError";
-import { sendEmail } from "~/utils/email";
+import sendingEmail from "~/utils/email";
 import { encrypt } from "~/utils/encryption/encryptAndDecrypt";
 import generate8digitNumber from "~/utils/javascript/generate8digitNumber";
 import { generateOtpEmailTemplate } from "~/utils/otpTemplate";
@@ -20,7 +20,7 @@ const handleUserSignup = catchAsyncError(async (data: Props) => {
   });
 
   const html = generateOtpEmailTemplate(otp);
-  await sendEmail(data.email, "Your OTP Code", html);
+  await sendingEmail(data.email, "Your OTP Code", html);
 });
 
 export default handleUserSignup;

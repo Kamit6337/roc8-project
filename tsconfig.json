@@ -37,7 +37,8 @@
     "**/*.cjs",
     "**/*.js",
     ".next/types/**/*.ts",
-    "src/assets/icons/index.jss"
+    "src/assets/icons/index.jss",
+    "src/utils/*.ts"
   ],
   "exclude": ["node_modules"]
 }

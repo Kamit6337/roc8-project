@@ -38,15 +38,12 @@ const Category = ({ list, userCategories, userId }: CategoryProps) => {
         showSuccessMessage({ message: "Category saved successfully" });
         return;
       }
-
       await handleDeleteUserCategory(userId, id);
-
       setSelected(selected.filter((value) => value !== id));
       showSuccessMessage({ message: "Category removed successfully" });
     } catch (error) {
       showErrorMessage({
-        message:
-          error instanceof Error ? error?.message : "Something went wrong",
+        message: "Something went wrong. Please try later",
       });
     }
   };

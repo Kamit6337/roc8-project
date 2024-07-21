@@ -38,8 +38,7 @@ const LoginPage = () => {
       router.push("/");
     } catch (error) {
       showErrorMessage({
-        message:
-          error instanceof Error ? error?.message : "Something went wrong",
+        message: "Something went wrong. Please try later",
       });
     }
   };

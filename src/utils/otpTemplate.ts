@@ -1,5 +1,5 @@
 // utils/otpTemplate.js
-export const generateOtpEmailTemplate = (otp) => `
+export const generateOtpEmailTemplate = (otp: number): string => `
   <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, sans-serif; text-align: center; padding: 20px; background-color: #f7f7f7;">
     <tr>
       <td>
