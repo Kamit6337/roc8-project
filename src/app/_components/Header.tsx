@@ -13,14 +13,20 @@ const list: string[] = [
 
 const topList = ["Help", "Orders & Return"];
 
+type DecryptData = {
+  name: string;
+};
+
 const Header = () => {
   const data = cookies().get("_use");
 
-  let name = "John";
+  let userName: string | undefined = "John";
 
   if (data?.value) {
-    const decrypted = decrypt(data.value);
-    name = decrypted.name.split(" ")[0];
+    const decrypted: DecryptData = JSON.parse(
+      decrypt(data.value),
+    ) as DecryptData;
+    userName = decrypted.name.split(" ")[0];
   }
 
   return (
@@ -33,7 +39,7 @@ const Header = () => {
             </p>
           );
         })}
-        <Profile name={name} />
+        <Profile name={userName} />
       </div>
       <div className="flex h-full w-full flex-1 items-center justify-between px-10">
         <p className="text-[32px] font-bold">ECOMMERCE</p>

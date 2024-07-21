@@ -5,7 +5,13 @@ const ENCRYPTION_IV = process.env.ENCRYPTION_IV; // Must be 128 bits (16 charact
 
 const algorithm = "aes-256-cbc";
 
-export const encrypt = (obj) => {
+if (!ENCRYPTION_KEY || !ENCRYPTION_IV) {
+  throw new Error(
+    "Encryption key and IV must be defined in environment variables",
+  );
+}
+
+export const encrypt = (obj: object): string => {
   const jsonString = JSON.stringify(obj);
 
   console.log("jsonString", jsonString);
@@ -20,7 +26,7 @@ export const encrypt = (obj) => {
   return encrypted.toString("hex");
 };
 
-export const decrypt = (encryptedText) => {
+export const decrypt = (encryptedText: string): string => {
   try {
     const encryptedBuffer = Buffer.from(encryptedText, "hex");
     const decipher = crypto.createDecipheriv(
@@ -31,9 +37,8 @@ export const decrypt = (encryptedText) => {
     let decrypted = decipher.update(encryptedBuffer);
     decrypted = Buffer.concat([decrypted, decipher.final()]);
     const jsonString = decrypted.toString();
-    return JSON.parse(jsonString);
+    return jsonString;
   } catch (error) {
-    console.error("Decryption failed:", error.message);
     throw new Error("Failed to decrypt data");
   }
 };

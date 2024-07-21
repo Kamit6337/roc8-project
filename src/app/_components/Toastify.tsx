@@ -1,12 +1,29 @@
-import { ToastContainer, toast } from "react-toastify";
+import {
+  ToastContainer as OriginalToastContainer,
+  type ToastOptions,
+  type ToastPosition,
+  toast,
+} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const Toastify = () => {
+interface CustomToastOptions extends ToastOptions {
+  message: string;
+  time?: number;
+  position?: ToastPosition;
+}
+
+interface ToastifyFunctions {
+  showErrorMessage: (options: CustomToastOptions) => void;
+  showSuccessMessage: (options: CustomToastOptions) => void;
+  showAlertMessage: (options: CustomToastOptions) => void;
+}
+
+const Toastify = (): ToastifyFunctions => {
   const showErrorMessage = ({
     message,
     time = 5000,
     position = "top-right",
-  } = {}) => {
+  }: CustomToastOptions) => {
     toast.error(message, {
       autoClose: time,
       position: position,
@@ -15,9 +32,9 @@ const Toastify = () => {
 
   const showSuccessMessage = ({
     message,
-    time = 2000,
+    time = 1000,
     position = "top-right",
-  } = {}) => {
+  }: CustomToastOptions) => {
     toast.success(message, {
       position: position,
       autoClose: time,
@@ -28,7 +45,7 @@ const Toastify = () => {
     message,
     time = 5000,
     position = "top-right",
-  } = {}) => {
+  }: CustomToastOptions) => {
     toast.warn(message, {
       position: position,
       autoClose: time,
@@ -36,11 +53,11 @@ const Toastify = () => {
   };
 
   return {
-    ToastContainer,
     showErrorMessage,
     showSuccessMessage,
     showAlertMessage,
   };
 };
 
+export const ToastContainer = OriginalToastContainer;
 export default Toastify;

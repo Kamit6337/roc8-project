@@ -1,10 +1,7 @@
 "use server";
-
 import { trpc } from "~/trpc/server";
 import catchAsyncError from "~/utils/catchAsyncError";
 import bcrypt from "bcryptjs";
-import { error } from "console";
-import { redirect } from "next/navigation";
 import { encrypt } from "~/utils/encryption/encryptAndDecrypt";
 import { cookies } from "next/headers";
 

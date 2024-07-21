@@ -5,7 +5,7 @@ const Button = ({
   isLoading = false,
 }: {
   title: string;
-  isLoading: boolean;
+  isLoading?: boolean;
 }) => {
   return (
     <button

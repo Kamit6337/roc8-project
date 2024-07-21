@@ -1,5 +1,4 @@
 "use client";
-
 import handleLogout from "~/actions/handleLogout";
 import ReactIcons from "~/assets/icons";
 import {
@@ -8,18 +7,21 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
-import Toastify from "./Toastify";
+import Toastify, { ToastContainer } from "./Toastify";
 import { usePathname } from "next/navigation";
 
-const Profile = ({ name }: { name: string }) => {
-  const { ToastContainer, showErrorMessage } = Toastify();
+const Profile = ({ name }: { name: string | undefined }) => {
+  const { showErrorMessage } = Toastify();
   const pathname = usePathname();
 
   const logout = async () => {
     try {
       await handleLogout();
     } catch (error) {
-      showErrorMessage({ message: error?.message || "Something went wrong" });
+      showErrorMessage({
+        message:
+          error instanceof Error ? error?.message : "Something went wrong",
+      });
     }
   };
 

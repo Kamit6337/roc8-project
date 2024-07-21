@@ -5,39 +5,48 @@ import { trpc } from "~/trpc/server";
 import { cookies } from "next/headers";
 import { decrypt, encrypt } from "~/utils/encryption/encryptAndDecrypt";
 
-const handleCreateUser = catchAsyncError(async (givenOtp) => {
-  const data = cookies().get("_sig");
+type DecryptData = {
+  otp: number;
+  name: string;
+  email: string;
+  password: string;
+};
 
-  if (!data) {
-    throw new Error("Something went wrong");
-  }
+const handleCreateUser = catchAsyncError(
+  async (givenOtp: string): Promise<string> => {
+    const data = cookies().get("_sig");
 
-  const decryptedValue = decrypt(data.value);
+    if (!data?.value) {
+      throw new Error("Something went wrong");
+    }
 
-  console.log("decryptedValue", decryptedValue);
+    const decryptedValue: DecryptData = JSON.parse(
+      decrypt(data.value),
+    ) as DecryptData;
 
-  const { otp, name, email, password } = decryptedValue;
+    const { otp, name, email, password } = decryptedValue;
 
-  if (Number(givenOtp) !== otp) {
-    throw new Error("OTP is incorrect");
-  }
+    if (Number(givenOtp) !== otp) {
+      throw new Error("OTP is incorrect");
+    }
 
-  const userCreated = await trpc.user.create({
-    name,
-    email,
-    password,
-  });
+    const userCreated = await trpc.user.create({
+      name,
+      email,
+      password,
+    });
 
-  const encryptUser = encrypt({ id: userCreated.id, name: userCreated.name });
+    const encryptUser = encrypt({ id: userCreated.id, name: userCreated.name });
 
-  cookies().set("_use", encryptUser, {
-    httpOnly: true,
-    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-  });
+    cookies().set("_use", encryptUser, {
+      httpOnly: true,
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    });
 
-  cookies().delete("_sig");
+    cookies().delete("_sig");
 
-  return userCreated.name;
-});
+    return userCreated.name;
+  },
+);
 
 export default handleCreateUser;

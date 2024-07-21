@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Link from "next/link";
 import handleUserLogin from "~/actions/handleUserLogin";
-import Toastify from "../_components/Toastify";
+import Toastify, { ToastContainer } from "../_components/Toastify";
 import { useRouter } from "next/navigation";
 
 const schema = z.object({
@@ -30,14 +30,17 @@ const LoginPage = () => {
     resolver: zodResolver(schema),
   });
 
-  const { ToastContainer, showErrorMessage } = Toastify();
+  const { showErrorMessage } = Toastify();
 
   const onSubmit = async (data: FormData) => {
     try {
       await handleUserLogin(data);
       router.push("/");
     } catch (error) {
-      showErrorMessage({ message: error?.message || "Something went wrong" });
+      showErrorMessage({
+        message:
+          error instanceof Error ? error?.message : "Something went wrong",
+      });
     }
   };
 

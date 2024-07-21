@@ -1,18 +1,21 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 "use client";
 import { type ChangeEvent, useRef } from "react";
 
-const OtpInput = ({ otp, cb }: { otp: string[]; cd: () => void }) => {
-  const inputRefs = useRef([]);
+const OtpInput = ({
+  otp,
+  cb,
+}: {
+  otp: string[];
+  cb: (value: string[]) => void;
+}) => {
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
     const value = e.target.value;
-
+    // a regular expression that matches a single digit (0-9) or ""
     if (/^\d$/.test(value) || value === "") {
       const newOtp = [...otp];
       newOtp[index] = value;
-      console.log("newOtp", newOtp);
-
       cb(newOtp);
 
       // Move to next input if not the last input
@@ -40,10 +43,12 @@ const OtpInput = ({ otp, cb }: { otp: string[]; cd: () => void }) => {
               maxLength={1}
               required={true}
               value={value}
-              ref={(el) => (inputRefs.current[index] = el)}
+              ref={(el) => {
+                inputRefs.current[index] = el;
+              }}
               onKeyDown={(e) => handleKeyDown(e, index)}
               onChange={(e) => handleChange(e, index)}
-              className="border-box_border flex h-[48px] w-[46px] items-center justify-center rounded-md border px-4 text-lg text-black shadow-sm"
+              className="flex h-[48px] w-[46px] items-center justify-center rounded-md border border-box_border px-4 text-lg text-black shadow-sm"
             />
           );
         })}

@@ -1,21 +1,29 @@
-import type { UseFormRegister } from "react-hook-form";
+// Import necessary types from react-hook-form
+import type { UseFormRegister, FieldValues, Path } from "react-hook-form";
 
-type InputProps = {
+// Update InputProps to use a more specific type for name
+type InputProps<T extends FieldValues> = {
   title: string;
   type?: string;
-  name?: "name" | "email" | "password";
-  register: UseFormRegister<FormData>;
+  name: Path<T>;
+  register: UseFormRegister<T>;
   error: string | undefined;
 };
 
-const Input = ({ title, type = "text", name, register, error }: InputProps) => {
+const Input = <T extends FieldValues>({
+  title,
+  type = "text",
+  name,
+  register,
+  error,
+}: InputProps<T>) => {
   return (
     <div className="h-[74px] w-full space-y-1">
       <p className="">{title}</p>
-      <div className="border-box_border rounded-md border shadow-sm">
+      <div className="rounded-md border border-box_border shadow-sm">
         <input
           type={type}
-          {...register(name)}
+          {...register(name)} // Cast name to string to satisfy register
           placeholder="Enter"
           className="w-full rounded-md p-2 text-[#848484]"
         />

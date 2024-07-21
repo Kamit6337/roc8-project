@@ -1,11 +1,10 @@
 "use client";
-
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import handleCreateUser from "~/actions/handleCreateUser";
 import Box from "~/app/_components/Box";
 import OtpInput from "~/app/_components/OtpInput";
-import Toastify from "~/app/_components/Toastify";
+import Toastify, { ToastContainer } from "~/app/_components/Toastify";
 import modifyEmail from "~/utils/javascript/modifyEmail";
 
 const VerifySignUp = () => {
@@ -13,7 +12,7 @@ const VerifySignUp = () => {
   const [otp, setOtp] = useState<string[]>(new Array(8).fill(""));
   const email = typeof window !== "undefined" && localStorage.getItem("email");
 
-  const { ToastContainer, showErrorMessage } = Toastify();
+  const { showErrorMessage } = Toastify();
 
   const handleSubmit = async () => {
     try {
@@ -22,7 +21,10 @@ const VerifySignUp = () => {
       localStorage.removeItem("email");
       router.push("/");
     } catch (error) {
-      showErrorMessage({ message: error?.message || "Something went wrong" });
+      showErrorMessage({
+        message:
+          error instanceof Error ? error?.message : "Something went wrong",
+      });
     }
   };
 

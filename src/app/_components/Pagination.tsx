@@ -96,7 +96,7 @@ function CategoryPagination({
 
           <PaginationItem>
             <PaginationLink
-              href={`${currentPage !== totalPages ? `/?page=${currentPage + 1}` : ""}`}
+              href={`${currentPage !== totalPages ? `/?page=${currentPage + 1}` : `/?page=${totalPages}`}`}
               className="w-3"
             >
               <ReactIcons.rightAngle className="text-pagination_gray" />

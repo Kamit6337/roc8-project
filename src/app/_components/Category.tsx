@@ -3,7 +3,7 @@ import { useState } from "react";
 import handleDeleteUserCategory from "~/actions/handleDeleteUserCategory";
 import handleSaveUserCategory from "~/actions/handleSaveUserCategory";
 import { Checkbox } from "~/components/ui/checkbox";
-import Toastify from "./Toastify";
+import Toastify, { ToastContainer } from "./Toastify";
 
 type List = {
   id: string;
@@ -28,7 +28,7 @@ const Category = ({ list, userCategories, userId }: CategoryProps) => {
   const [selected, setSelected] = useState<string[]>(() => {
     return userCategories.map((obj) => obj.categoryId);
   });
-  const { ToastContainer, showErrorMessage, showSuccessMessage } = Toastify();
+  const { showErrorMessage, showSuccessMessage } = Toastify();
 
   const handleChecked = async (checked: boolean | string, id: string) => {
     try {
@@ -46,7 +46,10 @@ const Category = ({ list, userCategories, userId }: CategoryProps) => {
       setSelected(selected.filter((value) => value !== id));
       showSuccessMessage({ message: "Category removed successfully" });
     } catch (error) {
-      showErrorMessage({ message: error?.message || "Something went wrong" });
+      showErrorMessage({
+        message:
+          error instanceof Error ? error?.message : "Something went wrong",
+      });
     }
   };
 

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 "use client";
 import Box from "../_components/Box";
 import Input from "../_components/Input";
@@ -9,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import handleUserSignup from "~/actions/handleUserSignup";
 import { useRouter } from "next/navigation";
-import Toastify from "../_components/Toastify";
+import Toastify, { ToastContainer } from "../_components/Toastify";
 import Link from "next/link";
 
 const schema = z.object({
@@ -22,7 +20,7 @@ type FormData = z.infer<typeof schema>;
 
 const SignUpPage = () => {
   const router = useRouter();
-  const { ToastContainer, showErrorMessage } = Toastify();
+  const { showErrorMessage } = Toastify();
   const {
     register,
     handleSubmit,
@@ -37,7 +35,10 @@ const SignUpPage = () => {
       localStorage.setItem("email", data.email);
       router.push("/signup/verify");
     } catch (error) {
-      showErrorMessage({ message: error?.message || "Something went wrong" });
+      showErrorMessage({
+        message:
+          error instanceof Error ? error?.message : "Something went wrong",
+      });
     }
   };
 
