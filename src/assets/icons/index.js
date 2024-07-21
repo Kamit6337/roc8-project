@@ -7,6 +7,7 @@ import {
   LiaAngleDownSolid,
 } from "react-icons/lia";
 import { PiShoppingCartSimpleThin } from "react-icons/pi";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
 
 const ReactIcons = {
   search: CiSearch,
@@ -16,6 +17,7 @@ const ReactIcons = {
   leftDoubleAngle: LiaAngleDoubleLeftSolid,
   rightDoubleAngle: LiaAngleDoubleRightSolid,
   downArrow: LiaAngleDownSolid,
+  threeDot: HiOutlineDotsHorizontal,
 };
 
 export default ReactIcons;

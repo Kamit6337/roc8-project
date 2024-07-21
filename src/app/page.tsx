@@ -2,7 +2,7 @@ import { HydrateClient, trpc } from "~/trpc/server";
 import Box from "./_components/Box";
 import handleUserLoggedIn from "~/actions/handleUserLoggedIn";
 import Category from "./_components/Category";
-import CategoryPagination from "./_components/Pagination";
+import CategoryPagination from "./_components/CategoryPagination";
 
 export default async function Home({
   searchParams: { page },
